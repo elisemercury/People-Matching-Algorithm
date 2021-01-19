@@ -227,18 +227,26 @@ def sort_unique(cluster, max_rounds=50, method="limited"):
                                         except:
                                             continue
                                 elif method == "medium":
-                                    if position == 0:
-                                        try:
-                                            cluster[mentees[j]][2], cluster[mentees[j]][4] = cluster[mentees[j]][4], cluster[mentees[j]][2]
-                                            #print("7")
-                                        except:
-                                            continue
-                                    else:
-                                        try:
-                                            cluster[mentees[i]][2], cluster[mentees[i]][4] = cluster[mentees[i]][4], cluster[mentees[i]][2] 
-                                            #print("8")
-                                        except:
-                                            continue                      
+                                    if len(cluster[mentees[i]]) > 4 or len(cluster[mentees[j]]) > 4:
+                                        if position == 0:
+                                            try:
+                                                cluster[mentees[j]][2], cluster[mentees[j]][4] = cluster[mentees[j]][4], cluster[mentees[j]][2]
+                                                #print("7")
+                                            except:
+                                                continue
+                                        else:
+                                            try:
+                                                cluster[mentees[i]][2], cluster[mentees[i]][4] = cluster[mentees[i]][4], cluster[mentees[i]][2] 
+                                                #print("8")
+                                            except:
+                                                continue       
+                                    else: 
+                                        if position == 0:
+                                            cluster[mentees[j]][0], cluster[mentees[j]][-1] = cluster[mentees[j]][-1], cluster[mentees[j]][0]
+                                            #print("13")
+                                        else:
+                                            cluster[mentees[i]][0], cluster[mentees[i]][-1] = cluster[mentees[i]][-1], cluster[mentees[i]][0] 
+                                            #print("14")               
                                 elif method == "hard":                  
                                     if len(cluster[mentees[i]]) > 5 or len(cluster[mentees[j]]) > 5:
                                         if position == 0:
@@ -270,8 +278,9 @@ def sort_unique(cluster, max_rounds=50, method="limited"):
                     j+=1
             i += 1
             j = 0
-        
+        print("testing round:", rounds)
         test = test_if_unique(cluster)
+        print(test)
         if test == "Success":
             return "Success"
         else:
@@ -536,16 +545,19 @@ def run_algorithm(mentee_file, mentor_file, ranks, unique=True, progbar_window=N
         sorting = sort_unique(people_cluster, method="limited")
         trys += 1
         while trys < 100:
+            print("Try: ", trys)
             if sorting == "Success":
                 print("Converged at try:", trys)
                 trys = 100
-                break
             elif trys < 10:
+                print("Trys under 10")
                 sorting = sort_unique(people_cluster, method="limited")
                 trys += 1
             else:
+                print("Making random choice:")
                 choice_list = ["limited"]*1 + ["medium"]*1 + ["hard"]*1
                 random_method = random.choice(choice_list)
+                print(random_method)
                 sorting = sort_unique(people_cluster, method=random_method)
                 trys += 1 
 
