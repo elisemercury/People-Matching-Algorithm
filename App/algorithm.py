@@ -1,12 +1,12 @@
-import pandas as pd
-import scipy.spatial
-import random
-import xlsxwriter
-from datetime import date
-import time
-import tkinter as ttk
-from tkinter import *
-import tkinter as tk
+# import pandas as pd
+# import scipy.spatial
+# import random
+# import xlsxwriter
+# from datetime import date
+# import time
+# import tkinter as ttk
+# from tkinter import *
+# import tkinter as tk
 
 def read_file(xlsx_file, group=None):
     if group == "mentor":
